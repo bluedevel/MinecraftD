@@ -1,15 +1,15 @@
 #!/bin/bash
 
 function start() {
-
+    echo "Start minecraft server"
 }
 
 function stop() {
-
+    echo "Stop minecraft server"
 }
 
 function reload() {
-
+    echo "Reload minecraft server   "
 }
 case "$1" in
   start)
