@@ -1,23 +1,37 @@
 #!/bin/bash
 
-function start() {
-    echo "Start\n" > ~/mc.txt
-
-    sleep 3
-
-    while [ true ]; do
-        echo "Sleeping\n" > ~/mc.txt
+function check_down () {
+    if [ kill -0 ${PID} = 0 ]; then
+        return false
+    else
+        return true
+    fi
+}
+function wait_until_down() {
+    while [ check_down = false ]; do
         sleep 1
     done
 }
 
+function start() {
+    echo "Start\n" > ~/mc.txt
+
+    if [[ ! -z ${command_fifo} ]]; then
+        mkfifo ${command_fifo}
+    fi
+
+    tail -f ${command_fifo} | ${executable} &
+    local PID=$!
+    wait_until_down
+}
+
 function stop() {
-    echo "Stop\n" > ~/mc.txt
+    echo "stop" > ${command_fifo}
+    wait_until_down
 }
 
 function reload() {
-    echo "Reload\n" > ~/mc.txt
-    sleep 3
+    echo "reload" > ${command_fifo}
 }
 case "$1" in
   start)
