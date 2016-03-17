@@ -2,6 +2,7 @@
 
 function start() {
     echo "Start minecraft server"
+
 }
 
 function stop() {
