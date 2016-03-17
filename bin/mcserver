@@ -1,0 +1,30 @@
+#!/bin/bash
+
+function start() {
+    echo "Start minecraft server"
+}
+
+function stop() {
+    echo "Stop minecraft server"
+}
+
+function reload() {
+    echo "Reload minecraft server"
+}
+case "$1" in
+  start)
+    start
+    ;;
+  stop)
+    stop
+    ;;
+  reload)
+    reload
+    ;;
+  retart)
+    stop
+    start
+    ;;
+  *)
+    echo "Usage: $0 {start|stop|restart|reload}"
+esac
