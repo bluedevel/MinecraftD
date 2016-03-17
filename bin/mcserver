@@ -3,6 +3,8 @@
 function start() {
     echo "Start\n" > ~/mc.txt
 
+    sleep 3
+
     while [ true ]; do
         echo "Sleeping\n" > ~/mc.txt
         sleep 1
@@ -15,6 +17,7 @@ function stop() {
 
 function reload() {
     echo "Reload\n" > ~/mc.txt
+    sleep 3
 }
 case "$1" in
   start)
