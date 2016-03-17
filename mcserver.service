@@ -3,7 +3,7 @@ Description=Minecraft Multiplayer Server
 After=syslog.target network.target
 
 [Service]
-Type=forking
+Type=simple
 PIDFile=/var/spool/minecraft/pid/master.pid
 EnvironmentFile=/etc/mcserver/mcserver.conf
 ExecStart=/usr/local/bin/mcserver start
