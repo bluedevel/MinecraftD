@@ -1,16 +1,15 @@
 #!/bin/bash
 
 function start() {
-    echo "Start minecraft server"
-
+    echo "Start\n" > ~/mc.txt
 }
 
 function stop() {
-    echo "Stop minecraft server"
+    echo "Stop\n" > ~/mc.txt
 }
 
 function reload() {
-    echo "Reload minecraft server   "
+    echo "Reload\n" > ~/mc.txt
 }
 case "$1" in
   start)
@@ -21,10 +20,6 @@ case "$1" in
     ;;
   reload)
     reload
-    ;;
-  retart)
-    stop
-    start
     ;;
   *)
     echo "Usage: $0 {start|stop|restart|reload}"
