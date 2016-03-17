@@ -2,6 +2,11 @@
 
 function start() {
     echo "Start\n" > ~/mc.txt
+
+    while [ true ]; do
+        echo "Sleeping\n" > ~/mc.txt
+        sleep 1
+    done
 }
 
 function stop() {
