@@ -16,7 +16,7 @@ function wait_until_down() {
 function start() {
     echo "Start\n" > ~/mc.txt
 
-    if [[ ! -z ${command_fifo} ]]; then
+    if [[ ! -p ${command_fifo} ]]; then
         mkfifo ${command_fifo}
     fi
 
