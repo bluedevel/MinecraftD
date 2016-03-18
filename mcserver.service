@@ -11,4 +11,4 @@ ExecReload=/usr/local/bin/mcserver reload
 ExecStop=/usr/local/bin/mcserver stop
 
 [Install]
-WantedBy=default.target
+WantedBy=multi-user.target
