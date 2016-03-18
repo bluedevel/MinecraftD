@@ -48,7 +48,7 @@ function start() {
     fi
 
     log "Starting server..."
-    tail -f ${command_fifo} | ${executable} &> ${instance_log} &
+    tail -f ${command_fifo} | ${executable} &> ${instance_out} &
     store_pid $!
     
     log "Started"
@@ -80,5 +80,5 @@ case "$1" in
     reload
     ;;
   *)
-    echo "Usage: $0 {start|stop|restart|reload}"
+    echo "Usage: $0 {start|stop|reload}"
 esac
