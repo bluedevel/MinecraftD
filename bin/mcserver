@@ -48,7 +48,6 @@ function start() {
     fi
 
     log "Starting server..."
-    echo "Test" > ${instance_log}
     tail -f ${command_fifo} | ${executable} &> ${instance_log} &
     store_pid $!
     
