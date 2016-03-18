@@ -4,6 +4,14 @@ function log() {
     echo "$(date) - $1" >> ${daemon_log}
 }
 
+function is_pid_stored() {
+    if [ -e ${pidfile} ]; then
+        return 0
+    else
+        return 1
+    fi
+}
+
 function store_pid() {
     log "Store pid $1 to ${pidfile}"
     echo $1 > ${pidfile}
@@ -13,14 +21,22 @@ function get_pid() {
     cat ${pidfile}
 }
 
+function del_pid() {
+    rm -f ${pidfile}
+}
+
 function wait_until_down() {
     
-    pid=`get_pid`
-    log "Waiting for '${pid}' to go down"    
+    if is_pid_stored; then
+        pid=`get_pid`
+        log "Waiting for '${pid}' to go down"    
 
-    while ps -p ${pid} > ${daemon_log}; do
-        sleep 1
-    done    
+        while ps -p ${pid} > /dev/null; do
+            sleep 1
+        done    
+
+        del_pid
+    fi
 }
 
 function start() {
@@ -39,7 +55,7 @@ function start() {
     log "Started"
     wait_until_down
     
-    log "Done"
+    log "Daemon process exit"
 }
 
 function stop() {
@@ -48,6 +64,7 @@ function stop() {
     echo "stop" > ${command_fifo}
 
     wait_until_down
+    log "Stoped succesful"
 }
 
 function reload() {
