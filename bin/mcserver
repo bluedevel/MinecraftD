@@ -1,32 +1,52 @@
 #!/bin/bash
 
-function check_down () {
-    if [ kill -0 ${PID} = 0 ]; then
-        return false
-    else
-        return true
-    fi
+function log() {
+    echo "$(date) - $1" >> ${daemon_log}
 }
+
+function store_pid() {
+    log "Store pid $1 to ${pidfile}"
+    echo $1 > ${pidfile}
+}
+
+function get_pid() {
+    cat ${pidfile}
+}
+
 function wait_until_down() {
-    while [ check_down = false ]; do
+    
+    pid=`get_pid`
+    log "Waiting for '${pid}' to go down"    
+
+    while ps -p ${pid} > ${daemon_log}; do
         sleep 1
-    done
+    done    
 }
 
 function start() {
-    echo "Start\n" > ~/mc.txt
+    log "Starting..."
 
     if [[ ! -p ${command_fifo} ]]; then
+	log "Creating fifo ${command_fifo}"
         mkfifo ${command_fifo}
     fi
 
-    tail -f ${command_fifo} | ${executable} &
-    local PID=$!
+    log "Starting server..."
+    echo "Test" > ${instance_log}
+    tail -f ${command_fifo} | ${executable} &> ${instance_log} &
+    store_pid $!
+    
+    log "Started"
     wait_until_down
+    
+    log "Done"
 }
 
 function stop() {
+    
+    log "Send stop command"
     echo "stop" > ${command_fifo}
+
     wait_until_down
 }
 
