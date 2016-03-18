@@ -9,3 +9,6 @@ EnvironmentFile=/etc/mcserver/mcserver.conf
 ExecStart=/usr/local/bin/mcserver start
 ExecReload=/usr/local/bin/mcserver reload
 ExecStop=/usr/local/bin/mcserver stop
+
+[Install]
+WantedBy=default.target
