@@ -39,18 +39,35 @@ function wait_until_down() {
     fi
 }
 
+function create_fifo() {
+    log "Creating fifo $1"
+    mkfifo $1
+}
+
+function cleanup_instance_out() {
+    # TODO find better solution to remove old stuff
+    while [ true ]; do
+        log "Cleaning instance_out"
+        tail ${instance_out} > ${instance_out}
+        sleep 1
+    done
+}
+
 function start() {
     log "Starting..."
 
     if [[ ! -p ${command_fifo} ]]; then
-	log "Creating fifo ${command_fifo}"
-        mkfifo ${command_fifo}
+         create_fifo ${command_fifo}
     fi
 
     log "Starting server..."
     tail -f ${command_fifo} | ${executable} &> ${instance_out} &
     store_pid $!
-    
+   
+    #cleanup_instance_out &
+    #clean_pid=$!
+    #trap "log 'Stop instance_out cleanup'; kill ${clean_pid}"
+ 
     log "Started"
     wait_until_down
     

@@ -3,6 +3,11 @@
 #load deamon config
 . /etc/mcserver/mcserver.conf
 
+if [ -z ${instance_out+x} ]; then
+    echo "Property instance_out is not configured"
+    exit 1
+fi
+
 tail -f ${instance_out} &
 trap "kill $!" EXIT
 
